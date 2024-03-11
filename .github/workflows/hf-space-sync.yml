@@ -14,9 +14,7 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-      - run: echo ${{ github.repository.owner }}
-      - run: echo ${{ github.repository_owner }}
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://${{ github.repository.owner }}:$HF_TOKEN@huggingface.co/spaces/${{ github.repository }} main
+        run: git push https://${{ github.repository_owner }}:$HF_TOKEN@huggingface.co/spaces/${{ github.repository }} main
