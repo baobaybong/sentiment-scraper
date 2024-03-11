@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sentiment Analysis</title>
+    </head>
+
+    <body>
+        <h1>Sentiment Analysis</h1>
+
+        <form hx-get="/predict" hx-target="#sentiment">
+            <label for="text">Enter text:</label>
+            <input name="text">
+            <button>Submit</button>
+        </form>
+
+        <p>The predicted sentiment is: <span id="sentiment"></span></p>
+    </body>
+
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+</html>
