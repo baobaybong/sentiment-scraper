@@ -10,13 +10,13 @@ jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
+      - run: echo ${{ github.repository.owner }}
+      - run: echo ${{ github.repository_owner }}
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: echo ${{ github.repository.owner }}
-        run: echo ${{ github.repository_owner }}
         run: git push https://${{ github.repository.owner }}:$HF_TOKEN@huggingface.co/spaces/${{ github.repository }} main
