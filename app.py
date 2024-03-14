@@ -23,7 +23,8 @@ scraped_data = None
 async def setup():
     load_dotenv()
     X_CREDENTIAL = os.getenv('X_CREDENTIAL')
-    await api.pool.add_account(*X_CREDENTIAL.split(','), proxy="http://8.219.97.248:80")
+    PROXY = os.getenv('PROXY')
+    await api.pool.add_account(*X_CREDENTIAL.split(','), proxy=PROXY)
     await api.pool.login_all()
 
 def create_figure(df):
