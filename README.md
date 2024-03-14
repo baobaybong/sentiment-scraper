@@ -16,7 +16,7 @@ license: mit
 
 - EDA on Twitter sentiment140 dataset: https://github.com/baobaybong/sentiment-scraper/blob/main/eda.ipynb
 - Modelling: simple TF-IDF + Naive Bayes model with 76% test accuracy
-- Deployment: simple website that can scrape the latest X (Twitter) tweets about a certain person/topic and analyze the sentiment of the tweets. Link: https://huggingface.co/spaces/baobaybong/sentiment-scraper
+- Deployment: simple Flask website that can scrape the latest X (Twitter) tweets about a certain person/topic and analyze the sentiment of the tweets. Link: https://huggingface.co/spaces/baobaybong/sentiment-scraper
 
 ![demo](static/images/demo.png)
 

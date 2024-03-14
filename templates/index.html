@@ -7,13 +7,20 @@
     <body>
         <h1>Sentiment Analysis</h1>
 
-        <form hx-get="/predict" hx-target="#sentiment">
+        <form 
+            _='on submit
+            halt the event
+            set text to (first <input/> in me).value
+            put "Predicting..." into the next <p/>
+            
+            fetch  `/predict?text=${text}` then
+            put `The predicted sentiment for "${text}" is: ${result}` into the next <p/>'>
             <label for="text">Enter text:</label>
             <input name="text">
             <button>Submit</button>
         </form>
 
-        <p>The predicted sentiment is: <span id="sentiment"></span></p>
+        <p>Click Submit to predict sentiment</p>
 
         <h2>Sentiment Scraping</h2>
 
@@ -32,9 +39,9 @@
             <input name="keyword">
             <button>Submit</button>
         </form>
-        <br>
 
-        <p></p>
+        <p>Click Submit to scrape and predict sentiment on tweets containing the keyword (could be a person's name or a topic)</p>
+        <br>
         <img>
         <div id="scraped-data"></div>
         
