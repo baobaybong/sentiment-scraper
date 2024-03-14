@@ -15,7 +15,7 @@ import asyncio
 
 app = Flask(__name__)
 model = joblib.load('models/model.joblib')
-api = API()
+api = API(proxy='1.1.1.1')
 matplotlib.use('agg')
 cur_keyword = None
 scraped_data = None
