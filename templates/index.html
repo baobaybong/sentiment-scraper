@@ -14,8 +14,33 @@
         </form>
 
         <p>The predicted sentiment is: <span id="sentiment"></span></p>
+
+        <h2>Sentiment Scraping</h2>
+
+        <form 
+            _="on submit
+            halt the event
+            set keyword to (first <input/> in me).value
+            put 'Scraping...' into the next <p/>
+            set (next <img/>)'s @src to ''
+
+            fetch `/scrape?keyword=${keyword}` then
+            put '' into the next <p/>
+            put the result into #scraped-data
+            set (next <img/>)'s @src to `/plot?keyword=${keyword}`">
+            <label for="keyword">Enter keyword to scrape:</label>
+            <input name="keyword">
+            <button>Submit</button>
+        </form>
+        <br>
+
+        <p></p>
+        <img>
+        <div id="scraped-data"></div>
+        
     </body>
 
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 
 </html>

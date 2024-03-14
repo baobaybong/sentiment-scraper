@@ -1,3 +1,8 @@
 Flask==3.0.2
 joblib==1.3.2
-scikit-learn==1.3.0
+matplotlib==3.7.2
+pandas==2.2.1
+python-dotenv==1.0.1
+pytz==2023.3
+twscrape==0.11.1
+scikit-learn==1.3.0 
