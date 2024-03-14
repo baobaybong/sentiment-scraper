@@ -15,7 +15,7 @@ import asyncio
 
 app = Flask(__name__)
 model = joblib.load('models/model.joblib')
-api = API(proxy='1.1.1.1')
+api = API()
 matplotlib.use('agg')
 cur_keyword = None
 scraped_data = None
@@ -23,7 +23,7 @@ scraped_data = None
 async def setup():
     load_dotenv()
     X_CREDENTIAL = os.getenv('X_CREDENTIAL')
-    await api.pool.add_account(*X_CREDENTIAL.split(','))
+    await api.pool.add_account(*X_CREDENTIAL.split(','), proxy="http://8.219.97.248:80")
     await api.pool.login_all()
 
 def create_figure(df):
