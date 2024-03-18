@@ -8,7 +8,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import io
-import sqlite3
 from dotenv import load_dotenv
 import os
 import asyncio
@@ -78,6 +77,8 @@ async def scrape():
         async for tweet in api.search(f"{keyword} lang:en", limit=30):
             tweets.append((tweet.user.username, tweet.date, tweet.url, tweet.rawContent))
 
+        print(f'Scraped {len(tweets)} tweets')
+
         tweets_df = pd.DataFrame(tweets, columns=cols)
         tweets_df['date'] = tweets_df['date'].apply(lambda x: x.astimezone(timezone('Asia/Singapore')).strftime("%d-%m-%Y %H:%M:%S UTC%Z"))
         tweets_df['url'] = tweets_df['url'].apply(lambda x: f'<a href="{x}" target="_blank">{x}</a>')
@@ -90,6 +91,8 @@ async def scrape():
     
     except Exception as e:
         print(e)
+        cur_keyword = None
+        scraped_data = None
         return 'There was an error, possibly due to hitting scrape limit for today. Please come back later.'
 
 @app.route('/plot', methods=['GET'])

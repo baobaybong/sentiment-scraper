@@ -21,7 +21,8 @@ license: mit
 ![demo](static/images/demo.png)
 
 ## Limitations
-- As you can see, the website currently does not have any front-end, very ugly. The back-end code is ugly as well.
+- As you can see, the website currently does not have any front-end, very ugly. The back-end code is ugly and buggy as well.
 - The model can be improved, currently it is very simple and not very accurate. It is also a sentiment binary classification model, which doesn't account for the intensity or neutrality of sentiments.
 - Functionalities can be added. 
 - Due to Twitter's API regulation, only a maximum of 300 tweets can be scraped per account per day. The website will scrape less than 50 tweets per request to avoid hitting the limit. (I don't know how legal is scraping with multiple accounts T_T).
+- Vulnerable as ****. XSS-ed by my friend within 5 seconds of me sending him the website link. Current design of requests is insecure.
