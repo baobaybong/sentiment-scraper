@@ -6,7 +6,7 @@ import pandas as pd
 from pytz import timezone
 import matplotlib
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.backends.backend_svg import FigureCanvasSVG
 import io
 from dotenv import load_dotenv
 import os
@@ -65,47 +65,44 @@ async def scrape():
     try:
         if keyword == cur_keyword and scraped_data is not None:
             print('Same keyword, skipping scraping to save quota')
-            return scraped_data.to_html(escape=False)
-        cur_keyword = keyword
+            tweets_df = scraped_data
+        else:
+            cur_keyword = keyword
 
-        # tweets_df = pd.DataFrame({'content': ['hi', 'lol', keyword], 'b': [2, 3, 4]})
+            # tweets_df = pd.DataFrame({'content': ['hi', 'lol', keyword], 'b': [2, 3, 4]})
 
-        tweets = []
-        
-        cols = ['username', 'date', 'url', 'content']
+            tweets = []
+            
+            cols = ['username', 'date', 'url', 'content']
 
-        async for tweet in api.search(f"{keyword} lang:en", limit=30):
-            tweets.append((tweet.user.username, tweet.date, tweet.url, tweet.rawContent))
+            async for tweet in api.search(f"{keyword} lang:en", limit=30):
+                tweets.append((tweet.user.username, tweet.date, tweet.url, tweet.rawContent))
 
-        print(f'Scraped {len(tweets)} tweets')
+            print(f'Scraped {len(tweets)} tweets')
 
-        tweets_df = pd.DataFrame(tweets, columns=cols)
-        tweets_df['date'] = tweets_df['date'].apply(lambda x: x.astimezone(timezone('Asia/Singapore')).strftime("%d-%m-%Y %H:%M:%S UTC%Z"))
-        tweets_df['url'] = tweets_df['url'].apply(lambda x: f'<a href="{x}" target="_blank">{x}</a>')
+            tweets_df = pd.DataFrame(tweets, columns=cols)
+            tweets_df['date'] = tweets_df['date'].apply(lambda x: x.astimezone(timezone('Asia/Singapore')).strftime("%d-%m-%Y %H:%M:%S UTC%Z"))
+            tweets_df['url'] = tweets_df['url'].apply(lambda x: f'<a href="{x}" target="_blank">{x}</a>')
 
-        tweets_df['sentiment'] = model.predict(tweets_df.content)
+            tweets_df['sentiment'] = model.predict(tweets_df.content)
 
-        # scraped_data = tweets_df.to_json(orient='records', index=False)
-        scraped_data = tweets_df
+            scraped_data = tweets_df
+
         return tweets_df.to_html(escape=False)
     
     except Exception as e:
         print(e)
         cur_keyword = None
         scraped_data = None
-        return 'There was an error, possibly due to hitting scrape limit for today. Please come back later.'
+        return '<p>There was an error, possibly due to hitting scrape limit for today. Please come back later.</p>'
 
 @app.route('/plot', methods=['GET'])
 def plot():
-    # df = pd.read_json(io.StringIO(scraped_data))
     df = scraped_data
-
     fig = create_figure(df)
-
     output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-
-    return Response(output.getvalue(), mimetype='image/png')
+    FigureCanvasSVG(fig).print_svg(output)
+    return Response(output.getvalue(), mimetype='image/svg+xml')
 
 async def main():
     await setup()
