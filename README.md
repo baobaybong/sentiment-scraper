@@ -1,6 +1,6 @@
 ---
 title: Sentiment Scraper
-emoji: 🏃
+emoji: 😄😠
 colorFrom: pink
 colorTo: yellow
 sdk: gradio
